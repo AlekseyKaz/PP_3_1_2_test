@@ -1,7 +1,9 @@
 package ru.kata.spring.boot_security.demo.service;
 
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
@@ -11,6 +13,10 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+//    public UserService(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
     private final RoleRepository roleRepository;
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -30,11 +36,10 @@ public class UserService {
     }
 
     public List<User> findAll() {
-       List<User> user = userRepository.findAll();
-       return user;
+       return userRepository.findAll();
     }
     public List<Role> listRoles() {
-        return (List<Role>) roleRepository.findAll();
+        return roleRepository.findAll();
     }
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
