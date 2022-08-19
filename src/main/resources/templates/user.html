@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Users</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/shards.min.css">
+    </head>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
 
+<table>
+    <tr>
+        <td colspan="5" style="text-align: center"><h1>Greeting, <span th:text="${users.getEmail()}"></span>!</h1></td>
+    </tr>
+    <tr>
+        <td><h2>Id</h2></td>
+        <td><h2>First Name</h2></td>
+        <td><h2>Last Name</h2></td>
+        <td><h2>Age</h2></td>
+        <td><h2>Username</h2></td>
+    </tr>
+    <tr>
+        <td th:text="${users.getId()}">Id</td>
+        <td th:text="${users.getName()}">First Name</td>
+        <td th:text="${users.getLastname()}">Last Name</td>
+        <td th:text="${users.getAge()}">Age</td>
+        <td th:text="${users.getEmail()}"></td>
+    </tr>
+    <tr>
+        <td colspan="5" style="text-align: center">
+            <form th:method="GET" th:action="@{/logout}">
+                <input type="submit" value="LOGOUT"/>
+            </form>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>
