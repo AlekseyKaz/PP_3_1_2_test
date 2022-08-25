@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles = new HashSet<>();
+    private Collection<Role> roles;
 
 
     public User() {
@@ -85,5 +85,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(String name, String lastname, int age, String email, String password, Collection<Role> roles) {
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
     }
 }

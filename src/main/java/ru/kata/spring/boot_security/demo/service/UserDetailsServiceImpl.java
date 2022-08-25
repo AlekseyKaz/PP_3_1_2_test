@@ -12,7 +12,6 @@ import java.util.Collections;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    //private final UserService userService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
@@ -21,15 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-//    public UserDetailsServiceImpl(UserService userService, RoleRepository roleRepository) {
-//        this.userService = userService;
-//        this.roleRepository = roleRepository;
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        user.setRoles(roleRepository.findAllById(Collections.singleton(user.getId())));// !!!!!! обрати внимание !!!!
+//        user.setRoles(roleRepository.findAllByUsersId(user.getId()));
         if (user == null) {
             throw new UsernameNotFoundException(String.format("'%s' -- неопознанное тело", username));
         }

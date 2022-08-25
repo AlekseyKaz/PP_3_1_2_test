@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,15 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.util.List;
 
 @Controller
 public class AdminController {
-private final UserService userService;
+private final UserServiceImpl userService;
 private final PasswordEncoder passwordEncoder;
 
-    public AdminController( UserService userService, PasswordEncoder passwordEncoder) {
+    public AdminController( UserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -26,7 +28,7 @@ private final PasswordEncoder passwordEncoder;
     public String showUserList(Model model) {
         List<User> userList = userService.findAll();
         model.addAttribute("users",userList);
-//        model.addAttribute("users.roles",userList);
+        model.addAttribute("users.roles",userList);
         return "admin";
     }
     @GetMapping("/signup")
@@ -42,7 +44,7 @@ private final PasswordEncoder passwordEncoder;
         return "redirect:/admin";
     }
     @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+    public String showUpdateForm(@PathVariable("id") long id, @NotNull Model model) {
         User user = userService.findById(id);
         List<Role> roleList = userService.listRoles();
         model.addAttribute("user", user);
@@ -58,8 +60,7 @@ private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
-        User user = userService.findById(id);
-        userService.delete(user);
+        userService.delete(id);
         return "redirect:/admin";
     }
 }

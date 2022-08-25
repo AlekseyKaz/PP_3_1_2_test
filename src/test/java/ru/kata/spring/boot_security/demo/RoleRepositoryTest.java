@@ -21,9 +21,9 @@ public class RoleRepositoryTest {
 
     @Test
     public void testCreateRoles() {
-        Role user = new Role("User");
-        Role admin = new Role("Admin");
-        Role costumer = new Role("Costumer");
+        Role user = new Role("ROLE_USER");
+        Role admin = new Role("ROLE_ADMIN");
+        Role costumer = new Role("ROLE_ANY");
         roleRepository.saveAll(List.of(user,admin,costumer));
         List<Role> roleList = (List<Role>) roleRepository.findAll();
         assertThat(roleList.size()).isEqualTo(3);
