@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY )
-    @Fetch(FetchMode.JOIN)// не забудь загуглить что это за хрень и почему она работает
+//    @Fetch(FetchMode.JOIN)// не забудь загуглить что это за хрень и почему она работает
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
