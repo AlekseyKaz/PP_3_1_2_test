@@ -10,17 +10,22 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EntityManager entityManager;
+
 @Autowired
-    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, EntityManager entityManager) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.entityManager = entityManager;
 }
 
     @Override
@@ -53,7 +58,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        TypedQuery<User> query = entityManager.createQuery("SELECT u from User where u.email =:email",User.class);
+        User user = query.setParameter("email",email).getSingleResult();
+
+        return user;
     }
 
 //    @Override
