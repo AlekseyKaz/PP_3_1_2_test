@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void save(User user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+//    user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -56,25 +56,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
-//
-//    public User save(User user) {
-//        return userRepository.save(user);
+//    @Override
+//    @Transactional
+//    public void editUser(long id, User user) {
+//        if(user.getPassword() == null|| user.getPassword().equals(userRepository.getById(id).getPassword())) {
+//            user.setPassword(user.getPassword());
+//        } else {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        }
+//        userRepository.save(user);
 //    }
-//    public User findById(long id) {
-//        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-//    }
-//
-//    public void delete(User user) {
-//        userRepository.delete(user);
-//    }
-//
-//    public List<User> findAll() {
-//       return userRepository.findAll();
-//    }
-//    public List<Role> listRoles() {
-//        return roleRepository.findAll();
-//    }
-//    public User findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
+
 }

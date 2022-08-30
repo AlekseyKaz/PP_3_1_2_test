@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private int age;
 
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
     @Column(name = "password")
     private String password;
@@ -45,14 +45,8 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-
-    public User() {
-    }
-
     public void addRole(Role role) {
         this.roles.add(role);
-
-
     }
 
 
@@ -94,5 +88,19 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User() {
+    }
+    public String getRolesString() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role:roles) {
+            if(role.getName().contains("ROLE_ADMIN")) {
+                sb.append(" ADMIN");
+            } else if (role.getName().contains("ROLE_USER")) {
+                sb.append(" USER");
+            }
+        }
+        return sb.toString();
     }
 }
