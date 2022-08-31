@@ -58,8 +58,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByEmail(String email) {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u from User where u.email =:email",User.class);
-        User user = query.setParameter("email",email).getSingleResult();
+       User user =  userRepository.findByEmail(email);
 
         return user;
     }
