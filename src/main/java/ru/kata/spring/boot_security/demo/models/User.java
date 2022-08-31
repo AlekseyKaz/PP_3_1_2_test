@@ -33,20 +33,26 @@ public class User implements UserDetails {
     private int age;
 
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email")
     private String email;
     @Column(name = "password")
     private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY )
-//    @Fetch(FetchMode.JOIN)// не забудь загуглить что это за хрень и почему она работает
+    @Fetch(FetchMode.JOIN)// не забудь загуглить что это за хрень и почему она работает
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+
+    public User() {
+    }
+
     public void addRole(Role role) {
         this.roles.add(role);
+
+
     }
 
 
@@ -88,19 +94,5 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.roles = roles;
-    }
-
-    public User() {
-    }
-    public String getRolesString() {
-        StringBuilder sb = new StringBuilder();
-        for (Role role:roles) {
-            if(role.getName().contains("ROLE_ADMIN")) {
-                sb.append(" ADMIN");
-            } else if (role.getName().contains("ROLE_USER")) {
-                sb.append(" USER");
-            }
-        }
-        return sb.toString();
     }
 }

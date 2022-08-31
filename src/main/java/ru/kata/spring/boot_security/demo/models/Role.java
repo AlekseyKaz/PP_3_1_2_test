@@ -45,13 +45,4 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return getName();
     }
-    public String getRoleAsString() {
-        String s = "";
-        if (name.contains("ROLE_ADMIN")) {
-            s = "Amin";
-        } else if (name.contains("ROLE_USER")) {
-            s = "User";
-        }
-        return s;
-    }
 }

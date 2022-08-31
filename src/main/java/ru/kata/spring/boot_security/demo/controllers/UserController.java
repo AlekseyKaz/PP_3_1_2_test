@@ -10,7 +10,6 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -33,13 +32,8 @@ private final UserService userService;
 //        return "/user";
 //    }
     @GetMapping("/user")
-    public String index(Principal principal, Model model) {
-        User user = userService.findByEmail(principal.getName());
-        List<User> users = userService.findAll();
-        List role = userService.listRoles();
-        model.addAttribute("users",user);
-        model.addAttribute("role",role);
-        model.addAttribute("usersList",users);
+    public String index(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user",user);
         return "user";
     }
 }
