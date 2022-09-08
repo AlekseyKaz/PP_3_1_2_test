@@ -22,13 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         user.setRoles(roleRepository.findAllByUsersId(user.getId()));
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("'%s' -- неопознанное тело", username));
-        }
+
 
         return user;
     }
