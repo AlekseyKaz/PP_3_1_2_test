@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -9,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,29 +35,21 @@ public class User implements UserDetails {
     private int age;
 
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
     @Column(name = "password")
     private String password;
-
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY )
-    @Fetch(FetchMode.JOIN)// не забудь загуглить что это за хрень и почему она работает
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-
-    public User() {
-    }
-
     public void addRole(Role role) {
         this.roles.add(role);
-
-
     }
 
-
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
@@ -94,5 +88,31 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User() {
+    }
+    public String getRolesString() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role:roles) {
+            if(role.getName().contains("ROLE_ADMIN")) {
+                sb.append(" ADMIN");
+            } else if (role.getName().contains("ROLE_USER")) {
+                sb.append(" USER");
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roles=" + getRolesString() +
+                '}';
     }
 }

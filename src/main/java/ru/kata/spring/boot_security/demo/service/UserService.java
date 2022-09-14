@@ -6,7 +6,8 @@ import ru.kata.spring.boot_security.demo.models.User;
 import java.util.List;
 
 public interface UserService {
-    void save(User user);
+
+    void add(User user);
 
     List<User> findAll();
 
@@ -18,6 +19,7 @@ public interface UserService {
 
     User findByEmail(String email);
 
+    void editUser(User user);
 
 
 }
